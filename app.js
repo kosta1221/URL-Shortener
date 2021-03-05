@@ -2,8 +2,12 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const classes = require("./classes");
 
 const shorturlRoutes = require("./routes/shorturlRoutes");
+
+const dataBase = new classes.DataBase();
+dataBase.updateSelf();
 
 app.use(cors());
 app.use(express.json());

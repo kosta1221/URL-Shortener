@@ -1,7 +1,14 @@
+const dbRequests = require("./dbRequests");
+
 class DataBase {
 	constructor(urls = [], userIds = []) {
 		this.urls = urls;
 		this.userIDs = userIds;
+	}
+
+	// a method for updating itself based on persistent storage
+	updateSelf() {
+		dbRequests.getUrlsBin();
 	}
 }
 

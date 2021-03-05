@@ -15,4 +15,12 @@ app.get("/", (req, res) => {
 	res.sendFile(__dirname + "/views/index.html");
 });
 
+// GET requests to /:shorturl will redirect the user to the corresponding long url if one is stored in the database
+app.get("/:shorturl", async (req, res) => {
+	let shorturl = req.params.shortUrl;
+	// get the json with urls in it
+	// find url in the database with corresponding shortURL (if one exists!)
+	// redirect the response to the longURL of that url
+});
+
 module.exports = app;

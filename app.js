@@ -27,4 +27,4 @@ app.get("/:shorturl", async (req, res) => {
 	// redirect the response to the longURL of that url
 });
 
-module.exports = app;
+module.exports = { app, dataBase };

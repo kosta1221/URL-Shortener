@@ -20,4 +20,24 @@ const getUrlsBin = async () => {
 	}
 };
 
-module.exports = { getUrlsBin };
+// update my urls bin according to a database
+const updateUrlsBin = async (dataBase) => {
+	if (!dataBase) {
+		throw new Error("Must pass in a database");
+	}
+
+	try {
+		let response = await axios({
+			method: "PUT",
+			url: "http://localhost:3001/b/" + MY_BIN_ID_FOR_URLS,
+			data: JSON.stringify(dataBase.urls),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+module.exports = { getUrlsBin, updateUrlsBin };

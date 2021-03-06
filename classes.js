@@ -7,12 +7,13 @@ class DataBase {
 	}
 
 	// a method for updating itself based on persistent storage
-	updateSelf() {
-		dbRequests.getUrlsBin();
+	async updateSelf() {
+		const res = await dbRequests.getUrlsBin();
+		this.urls = [...res];
 	}
 
 	// a method for adding a url to the database
-	addUrl(url) {
+	async addUrl(url) {
 		if (!url) {
 			throw new Error("Must pass in a url!");
 		}
@@ -21,14 +22,15 @@ class DataBase {
 		this.urls.push(url);
 
 		// persistent storage will be updated according to this database
-		dbRequests.updateUrlsBin(this);
+		await dbRequests.updateUrlsBin(this);
 	}
 }
 
 class Url {
-	constructor(long, short, clickCount) {
+	constructor(long, short, shortUrlId, clickCount) {
 		this.long = long;
 		this.short = short;
+		this.shortUrlId = shortUrlId;
 		this.clickCount = clickCount;
 	}
 }

@@ -1,9 +1,9 @@
 const axios = require("axios");
 
-// This is a bin I've created using postman to put my urls there
-const MY_BIN_ID_FOR_URLS = "455547f0-a066-414d-a091-13de6cd78819";
+// This is Koren's default bin which is better for persistency because it always exists
+const MY_BIN_ID_FOR_URLS = "default";
 
-// using koren's package of jsonbin-clone to get my relevant bin of urls
+// using Koren's package of jsonbin-clone to get my relevant bin of urls
 const getUrlsBin = async () => {
 	try {
 		const { data } = await axios({
@@ -11,12 +11,13 @@ const getUrlsBin = async () => {
 			url: "http://localhost:3001/b/" + MY_BIN_ID_FOR_URLS,
 			data: {},
 		});
-		const urls = data.record;
+		// There are 2 layers of arrays in Koren's bins for some reason
+		const urls = data.record[0];
 		if (urls && Array.isArray(urls)) {
 			return urls;
 		}
 	} catch (error) {
-		console.log(error);
+		console.log(error.message);
 	}
 };
 
@@ -35,6 +36,7 @@ const updateUrlsBin = async (dataBase) => {
 				"Content-Type": "application/json",
 			},
 		});
+		return response;
 	} catch (error) {
 		console.log(error);
 	}

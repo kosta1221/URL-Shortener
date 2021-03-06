@@ -18,10 +18,16 @@ app.get("/", (req, res) => {
 
 // GET requests to /:shorturl will redirect the user to the corresponding long url if one is stored in the database
 app.get("/:shorturl", async (req, res) => {
-	let shorturl = req.params.shortUrl;
+	const shortUrlId = req.params.shorturl;
+	const urlsInDatabase = shorturlRoutes.dataBase.urls;
+	const indexOfUrlInDataBase = urlsInDatabase.findIndex((url) => url.shortUrlId === shortUrlId);
+	console.log(indexOfUrlInDataBase);
+
+	const longUrl = urlsInDatabase[indexOfUrlInDataBase].long;
 	// get the json with urls in it
 	// find url in the database with corresponding shortURL (if one exists!)
 	// redirect the response to the longURL of that url
+	res.redirect(longUrl);
 });
 
 module.exports = { app };

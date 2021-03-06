@@ -17,6 +17,7 @@ const getUrlsBin = async () => {
 			return urls;
 		}
 	} catch (error) {
+		console.log("received an error with message:");
 		console.log(error.message);
 	}
 };
@@ -38,7 +39,8 @@ const updateUrlsBin = async (dataBase) => {
 		});
 		return response;
 	} catch (error) {
-		console.log(error);
+		console.log("received an error with message:");
+		console.log(error.message);
 	}
 };
 

@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const classes = require("../classes");
+const validUrl = require("valid-url");
 
 const shortId = require("shortid");
 const URL = "http://localhost:3000";
@@ -9,8 +10,13 @@ let router = express.Router();
 const dataBase = new classes.DataBase();
 
 (async function onLoad() {
-	await dataBase.updateSelf();
-	console.log("Urls currently in database:");
+	try {
+		await dataBase.updateSelf();
+	} catch (error) {
+		console.log("received an error with message:");
+		console.log(error.message);
+	}
+	console.log("Urls currently in database(on load):");
 	console.log(dataBase.urls);
 })();
 
@@ -22,11 +28,30 @@ router.put("/", async (req, res) => {
 	const shortUrl = `${URL}/${shortUrlId}`;
 	const longUrl = req.body.longUrl;
 
+	// Check if the long url typed into input already exists in the database
+	const urlAlreadyExistsInDatabase = dataBase.urls.find((url) => url.long === `${longUrl}`);
+	if (urlAlreadyExistsInDatabase) {
+		return res.status(200).json(urlAlreadyExistsInDatabase);
+	}
+
+	// Error Handling
+	// Cannot add a URL with an invalid format
+	if (!validUrl.isWebUri) {
+		return res.status(400).send(`URL ${longUrl} is invalid. Please enter a valid url.`);
+	}
+
+	// create a new URL object with with short and long url, then add it to database and then return the URL object
 	const url = new classes.Url(longUrl, shortUrl, shortUrlId, 0);
-	dataBase.addUrl(url);
-	// error handling
-	// return the URL object with short and long url
-	return res.status(200).send(`${JSON.stringify(url, null, 4)}`);
+
+	try {
+		dataBase.addUrl(url);
+	} catch (error) {
+		console.log("received an error with message:");
+		console.log(error.message);
+		return res.status(500).json(`Internal server error. message: ${error.message}`);
+	}
+
+	return res.status(200).json(url);
 });
 
 module.exports = { router, dataBase };

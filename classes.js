@@ -1,9 +1,8 @@
 const dbRequests = require("./dbRequests");
 
 class DataBase {
-	constructor(urls = [], userIds = []) {
+	constructor(urls = []) {
 		this.urls = urls;
-		this.userIds = userIds;
 	}
 
 	// a method for updating itself based on persistent storage
@@ -17,11 +16,18 @@ class DataBase {
 		if (!url) {
 			throw new Error("Must pass in a url!");
 		}
-		//TODO add some kind of url validation
 
-		this.urls.push(url);
+		try {
+			this.urls.push(url);
+			await this.updateBin();
+		} catch (error) {
+			console.log("received an error with message:");
+			console.log(error.message);
+		}
+	}
 
-		// persistent storage will be updated according to this database
+	// persistent storage will be updated according to this database
+	async updateBin() {
 		await dbRequests.updateUrlsBin(this);
 	}
 }

@@ -38,8 +38,8 @@ router.put("/", async (req, res) => {
 	// Error Handling
 	// Cannot add a URL with an invalid format
 	if (!validUrl.isWebUri(longUrl)) {
-		console.log(`URL ${longUrl} is invalid. Please enter a valid url.`);
-		return res.status(400).send(`URL ${longUrl} is invalid. Please enter a valid url.`);
+		console.log(`URL '${longUrl}' is invalid. Please enter a valid url.`);
+		return res.status(400).send(`URL '${longUrl}' is invalid. Please enter a valid url.`);
 	}
 
 	// create a new URL object with with short and long url, then add it to database and then return the URL object

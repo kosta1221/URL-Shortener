@@ -46,3 +46,8 @@ input[type="text"] {
 #message-section {
 	min-height: 30vh;
 }
+
+#stats-table {
+	width: 100%;
+	min-height: 20vh;
+}

@@ -60,8 +60,50 @@ window.addEventListener("DOMContentLoaded", () => {
 		urlDisplay.appendChild(myUrl);
 	}
 
+	// function for showing the stats of the desired url on screen
+	async function showStats(shortUrl = null) {
+		messageToUser.innerText = "";
+
+		const tdLongUrl = document.querySelector("#td-long-url");
+		const tdShortUrl = document.querySelector("#td-short-url");
+		const tdCreatedAt = document.querySelector("#td-created-at");
+		const tdTimesClicked = document.querySelector("#td-times-clicked");
+
+		const urlStatsInput = document.querySelector("#url-stats-input");
+		let shortUrlToGetStatsFor;
+
+		if (shortUrl === null) {
+			shortUrlToGetStatsFor = urlStatsInput.value;
+		} else {
+			shortUrlToGetStatsFor = shortUrl;
+		}
+		console.log(shortUrl);
+		console.log(shortUrlToGetStatsFor);
+
+		let urlObject;
+		try {
+			urlObject = await getStatsForUrl(shortUrlToGetStatsFor);
+		} catch (error) {
+			console.log("received an error with message:");
+			console.log(error.message);
+			messageToUser.hidden = false;
+			messageToUser.innerText = error.message;
+			return;
+		}
+
+		console.log(urlObject);
+		tdLongUrl.innerText = urlObject.long;
+		tdShortUrl.innerText = urlObject.short;
+		tdTimesClicked.innerText = urlObject.clickCount;
+		tdCreatedAt.innerText = urlObject.creationDate;
+	}
+
 	document.querySelector("#url-input-button").addEventListener("click", () => {
 		renderCurrentShortUrl();
 		document.querySelector("#url-display-placeholder").style.display = "none";
+	});
+
+	document.querySelector("#show-stats-button").addEventListener("click", () => {
+		showStats();
 	});
 });

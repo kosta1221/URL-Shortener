@@ -31,9 +31,25 @@
 			</section>
 			<section id="stats-section">
 				<h2>URL stats:</h2>
-				<div id="url-display">
-					<span id="url-stats-placeholder">URL stats...</span>
+				<div id="url-stats-display">
+					<table id="stats-table">
+						<tr>
+							<th>Long URL</th>
+							<th>Short URL</th>
+							<th>URL Created At</th>
+							<th>Times Clicked</th>
+						</tr>
+						<tr>
+							<td id="td-long-url"></td>
+							<td id="td-short-url"></td>
+							<td id="td-created-at"></td>
+							<td id="td-times-clicked"></td>
+						</tr>
+					</table>
 				</div>
+				<label for="url-stats-input">short-id to show stats for:</label>
+				<input id="url-stats-input" type="text" name="url" placeholder="short URL / short-id..." />
+				<button id="show-stats-button" type="button">SHOW STATS!</button>
 			</section>
 			<section id="message-section">
 				<div id="message-display">

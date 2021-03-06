@@ -11,5 +11,6 @@ async function makeUrlShort(longUrl) {
 		return data.short;
 	} catch (error) {
 		console.log(error.message);
+		throw new Error(error.response.data);
 	}
 }

@@ -1,4 +1,6 @@
 window.addEventListener("DOMContentLoaded", () => {
+	const messageToUser = document.querySelector("#message-to-user");
+
 	function createElementWithAttributes(tagName, attributes) {
 		// create the element
 		const element = document.createElement(tagName);
@@ -23,16 +25,23 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	// Rendering short url that is currently in the input
 	async function renderCurrentShortUrl() {
+		messageToUser.innerText = "";
 		const urlInput = document.querySelector("#url-input");
 		console.log(urlInput);
 		const longUrl = urlInput.value;
-		const shortUrl = await makeUrlShort(longUrl);
-		console.log(shortUrl);
 
-		if (!shortUrl) {
-			alert("Invalid URL");
+		let shortUrl;
+		try {
+			shortUrl = await makeUrlShort(longUrl);
+		} catch (error) {
+			console.log("received an error with message:");
+			console.log(error.message);
+			messageToUser.hidden = false;
+			messageToUser.innerText = error.message;
 			return;
 		}
+
+		console.log(shortUrl);
 		const myUrl = createElementWithAttributes("a", {
 			id: `short-url`,
 			href: `${shortUrl}`,

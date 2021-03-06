@@ -31,12 +31,14 @@ router.put("/", async (req, res) => {
 	// Check if the long url typed into input already exists in the database
 	const urlAlreadyExistsInDatabase = dataBase.urls.find((url) => url.long === `${longUrl}`);
 	if (urlAlreadyExistsInDatabase) {
+		console.log("returned url that already exists");
 		return res.status(200).json(urlAlreadyExistsInDatabase);
 	}
 
 	// Error Handling
 	// Cannot add a URL with an invalid format
-	if (!validUrl.isWebUri) {
+	if (!validUrl.isWebUri(longUrl)) {
+		console.log(`URL ${longUrl} is invalid. Please enter a valid url.`);
 		return res.status(400).send(`URL ${longUrl} is invalid. Please enter a valid url.`);
 	}
 

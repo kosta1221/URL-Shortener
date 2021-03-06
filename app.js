@@ -6,9 +6,6 @@ const classes = require("./classes");
 
 const shorturlRoutes = require("./routes/shorturlRoutes");
 
-const dataBase = new classes.DataBase();
-dataBase.updateSelf();
-
 app.use(cors());
 app.use(express.json());
 app.use("/public", express.static(`./public`));
@@ -27,4 +24,4 @@ app.get("/:shorturl", async (req, res) => {
 	// redirect the response to the longURL of that url
 });
 
-module.exports = { app, dataBase };
+module.exports = { app };

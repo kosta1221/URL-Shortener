@@ -14,3 +14,17 @@ async function makeUrlShort(longUrl) {
 		throw new Error(error.response.data);
 	}
 }
+
+async function getStatsForUrl(shortUrlId) {
+	try {
+		const { data } = await axios({
+			method: "GET",
+			url: `${URL}/api/statistic/${shortUrlId}`,
+			headers: { "Content-Type": "application/json" },
+		});
+		return data;
+	} catch (error) {
+		console.log(error.message);
+		throw new Error(error.response.data);
+	}
+}

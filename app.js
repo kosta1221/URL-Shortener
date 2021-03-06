@@ -30,15 +30,19 @@ app.get("/:shorturl", async (req, res) => {
 	if (indexOfUrlInDataBase === -1) {
 		return res.status(404).send(`Url with short-id ${shortUrlId} not found in database!`);
 	}
-	console.log(indexOfUrlInDataBase);
 
-	const longUrl = urlsInDatabase[indexOfUrlInDataBase].long;
+	const desiredUrl = urlsInDatabase[indexOfUrlInDataBase];
 
 	// redirect the response to the longURL of that url
 	try {
-		res.redirect(longUrl);
+		desiredUrl.clickCount++;
+		await shorturlRoutes.dataBase.updateBin();
+		console.log(`short-link ${desiredUrl.short} clicked ${desiredUrl.clickCount} times!`);
+		res.redirect(desiredUrl.long);
 	} catch (error) {
-		return res.status(500).json("Internal server error");
+		console.log("received an error with message:");
+		console.log(error.message);
+		return res.status(500).json(`Internal server error. message: ${error.message}`);
 	}
 });
 

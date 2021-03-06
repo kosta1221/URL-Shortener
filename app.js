@@ -19,15 +19,27 @@ app.get("/", (req, res) => {
 // GET requests to /:shorturl will redirect the user to the corresponding long url if one is stored in the database
 app.get("/:shorturl", async (req, res) => {
 	const shortUrlId = req.params.shorturl;
+	// get the database with urls in it
 	const urlsInDatabase = shorturlRoutes.dataBase.urls;
+	if (!urlsInDatabase) {
+		return res.status(400).send("Database empty!");
+	}
+
+	// find url in the database with corresponding shortURL (if one exists!)
 	const indexOfUrlInDataBase = urlsInDatabase.findIndex((url) => url.shortUrlId === shortUrlId);
+	if (indexOfUrlInDataBase === -1) {
+		return res.status(404).send(`Url with short-id ${shortUrlId} not found in database!`);
+	}
 	console.log(indexOfUrlInDataBase);
 
 	const longUrl = urlsInDatabase[indexOfUrlInDataBase].long;
-	// get the json with urls in it
-	// find url in the database with corresponding shortURL (if one exists!)
+
 	// redirect the response to the longURL of that url
-	res.redirect(longUrl);
+	try {
+		res.redirect(longUrl);
+	} catch (error) {
+		return res.status(500).json("Internal server error");
+	}
 });
 
 module.exports = { app };

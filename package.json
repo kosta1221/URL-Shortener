@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"database": "node node_modules/@korenezri/jsondb/server.js",
+		"test": "jest --verbose",
 		"main": "node index.js",
 		"devnodb": "nodemon index.js",
 		"dev": "concurrently \"npm run devnodb\" \"npm run database\"",

@@ -1,8 +1,20 @@
 const dbRequests = require("./dbRequests");
+const URL = "http://localhost:3000";
 
 class DataBase {
 	constructor(urls = []) {
 		this.urls = urls;
+	}
+
+	getUrlByShortUrl(shortUrlId) {
+		// find the index of the url in the database with corresponding shortUrlId (if one exists!)
+		const indexOfUrlInDataBase = this.urls.findIndex((url) => url.shortUrlId === shortUrlId);
+
+		if (indexOfUrlInDataBase === -1) {
+			throw new Error(`Url with short-id '${shortUrlId}' not found in database!`);
+		}
+
+		return this.urls[indexOfUrlInDataBase];
 	}
 
 	// a method for updating itself based on persistent storage
@@ -38,6 +50,7 @@ class Url {
 		this.short = short;
 		this.shortUrlId = shortUrlId;
 		this.clickCount = clickCount;
+		this.creationDate = Date.now();
 	}
 }
 

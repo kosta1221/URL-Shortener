@@ -2,15 +2,16 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const classes = require("./classes");
 
 const shorturlRoutes = require("./routes/shorturlRoutes");
+const statisticRoutes = require("./routes/statisticRoutes");
 
 app.use(cors());
 app.use(express.json());
 app.use("/public", express.static(`./public`));
 
 app.use("/api/shorturl", shorturlRoutes.router);
+app.use("/api/statistic", statisticRoutes.router);
 
 app.get("/", (req, res) => {
 	res.sendFile(__dirname + "/views/index.html");

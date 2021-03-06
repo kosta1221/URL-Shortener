@@ -4,21 +4,29 @@
 	<head>
 		<title>URL Shortener</title>
 		<link rel="icon" type="image/png" href="../public/favicon.ico" />
-		<link href="./public/style.css" rel="stylesheet" type="text/css" />
+		<link href="../public/style.css" rel="stylesheet" type="text/css" />
+		<script src="../public/utils.js"></script>
+		<script src="../public/client.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	</head>
 
 	<body>
 		<h1>URL Shortener Microservice</h1>
 		<main>
-			<section>
-				<form action="api/shorturl/new" method="POST">
-					<fieldset>
-						<legend>URL Shortener</legend>
-						<label for="url_input">URL:</label>
-						<input id="url_input" type="text" name="url" placeholder="long ass URL..." />
-						<input type="submit" value="POST URL" />
-					</fieldset>
-				</form>
+			<section id="input-section">
+				<!-- <form action="none"> -->
+				<fieldset>
+					<legend>URL Shortener</legend>
+					<label for="url-input">URL:</label>
+					<input id="url-input" type="text" name="url" placeholder="long ass URL..." />
+					<button id="url-input-button" type="button">POST URL</button>
+				</fieldset>
+				<!-- </form> -->
+			</section>
+			<section id="display-section">
+				<div id="url-display">
+					<span id="url-display-placeholder">Your URL...</span>
+				</div>
 			</section>
 		</main>
 		<footer>

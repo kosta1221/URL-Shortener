@@ -26,7 +26,14 @@ window.addEventListener("DOMContentLoaded", () => {
 	// Rendering short url that is currently in the input
 	async function renderCurrentShortUrl() {
 		messageToUser.innerText = "";
+
 		const urlInput = document.querySelector("#url-input");
+		const urlDisplay = document.querySelector("#url-display");
+
+		if (document.querySelector("#short-url")) {
+			document.querySelector("#short-url").remove();
+		}
+
 		console.log(urlInput);
 		const longUrl = urlInput.value;
 
@@ -50,11 +57,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
 		appendChildren(myUrl, shortUrl);
 
-		document.querySelector("#url-display").appendChild(myUrl);
+		urlDisplay.appendChild(myUrl);
 	}
 
 	document.querySelector("#url-input-button").addEventListener("click", () => {
-		console.log("hi");
 		renderCurrentShortUrl();
 		document.querySelector("#url-display-placeholder").style.display = "none";
 	});

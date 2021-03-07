@@ -28,7 +28,7 @@ describe("PUT Route to /api/shorturl", () => {
 		expect(response.body.long).toBeDefined();
 		expect(response.body.short).toBeDefined();
 		expect(response.body.shortUrlId).toBeDefined();
-		expect(response.body.clickCount).toBeDefined();
+		expect(response.body.clickCount).toBeGreaterThanOrEqual(0);
 		expect(response.body.creationDate).toBeGreaterThan(1000000000000);
 		done();
 	});
@@ -66,6 +66,21 @@ describe("GET route to /:shorturl-id", () => {
 });
 
 describe("GET route to /api/statistic/:shorturl-id", () => {
+	it("should be able to get stats for short-id", async (done) => {
+		const response = await request(app).get(`/api/statistic/${shortIdInDataBase}`);
+
+		// Is the status code 200
+		expect(response.status).toBe(200);
+
+		// Is the response body structured like a url object
+		expect(response.body.long).toBeDefined();
+		expect(response.body.short).toBeDefined();
+		expect(response.body.shortUrlId).toBeDefined();
+		expect(response.body.clickCount).toBeGreaterThanOrEqual(0);
+		expect(response.body.creationDate).toBeGreaterThan(1000000000000);
+		done();
+	});
+
 	it("should increment the amount of clicks for the relevant link when redirected", async (done) => {
 		const response1 = await request(app).get(`/api/statistic/${shortIdInDataBase}`);
 		const oldNumberOfCLicks = response1.body.clickCount;

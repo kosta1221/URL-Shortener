@@ -39,12 +39,13 @@ app.get("/:shorturl", async (req, res) => {
 		desiredUrl.clickCount++;
 		await shorturlRoutes.dataBase.updateBin();
 		console.log(`short-link ${desiredUrl.short} clicked ${desiredUrl.clickCount} times!`);
-		res.redirect(desiredUrl.long);
 	} catch (error) {
 		console.log("received an error with message:");
 		console.log(error.message);
 		return res.status(500).json(`Internal server error. message: ${error.message}`);
 	}
+
+	res.redirect(desiredUrl.long);
 });
 
 module.exports = { app };

@@ -4,7 +4,7 @@ const { dataBase } = require("../routes/shorturlRoutes");
 
 jest.setTimeout(10000);
 
-let validUrlResponseBody;
+let validUrlResponseBody, shortIdInDataBase;
 
 beforeAll(async (done) => {
 	await dataBase.updateSelf();
@@ -18,6 +18,7 @@ describe("PUT Route", () => {
 		const requestBody = { longUrl: validLongUrl };
 		const response = await request(app).put(`/api/shorturl`).send(requestBody);
 
+		shortIdInDataBase = response.body.shortUrlId;
 		validUrlResponseBody = response.body;
 		console.log(response.body);
 		// Is the status code 200
@@ -49,6 +50,17 @@ describe("PUT Route", () => {
 		const response = await request(app).put("/api/shorturl/").send(requestBody);
 		expect(response.status).toBe(200);
 		expect(response.body).toStrictEqual(validUrlResponseBody);
+		done();
+	});
+});
+
+describe("GET route", () => {
+	it("should redirect the user to his desired destination (long url)", async (done) => {
+		const response = await request(app).get(`/${shortIdInDataBase}`);
+		const { headers } = response;
+
+		expect(response.status).toBe(302);
+		expect(headers).toHaveProperty("location");
 		done();
 	});
 });

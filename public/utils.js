@@ -1,4 +1,4 @@
-const URL = window.location.origin;
+const URL = "https://URL-Shortener.kostakirov.repl.co";
 
 async function makeUrlShort(longUrl) {
 	try {

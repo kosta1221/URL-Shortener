@@ -11,7 +11,7 @@ beforeAll(async (done) => {
 	done();
 });
 
-describe("PUT Route", () => {
+describe("PUT Route to /api/shorturl", () => {
 	const validLongUrl = "https://www.w3schools.com/jsref/jsref_obj_date.asp";
 
 	it("Should put and return the new shortened url", async (done) => {
@@ -54,13 +54,29 @@ describe("PUT Route", () => {
 	});
 });
 
-describe("GET route", () => {
+describe("GET route to /:shorturl-id", () => {
 	it("should redirect the user to his desired destination (long url)", async (done) => {
 		const response = await request(app).get(`/${shortIdInDataBase}`);
 		const { headers } = response;
 
 		expect(response.status).toBe(302);
 		expect(headers).toHaveProperty("location");
+		done();
+	});
+});
+
+describe("GET route to /api/statistic/:shorturl-id", () => {
+	it("should increment the amount of clicks for the relevant link when redirected", async (done) => {
+		const response1 = await request(app).get(`/api/statistic/${shortIdInDataBase}`);
+		const oldNumberOfCLicks = response1.body.clickCount;
+
+		// Make a click
+		await request(app).get(`/${shortIdInDataBase}`);
+
+		const response2 = await request(app).get(`/api/statistic/${shortIdInDataBase}`);
+		const newNumberOfCLicks = response2.body.clickCount;
+
+		expect(newNumberOfCLicks).toBe(oldNumberOfCLicks + 1);
 		done();
 	});
 });

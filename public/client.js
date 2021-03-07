@@ -95,7 +95,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		tdLongUrl.innerText = urlObject.long;
 		tdShortUrl.innerText = urlObject.short;
 		tdTimesClicked.innerText = urlObject.clickCount;
-		tdCreatedAt.innerText = urlObject.creationDate;
+		tdCreatedAt.innerText = toMyDateForSmallerScreens(urlObject.creationDate);
 	}
 
 	document.querySelector("#url-input-button").addEventListener("click", () => {

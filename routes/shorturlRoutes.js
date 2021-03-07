@@ -4,7 +4,7 @@ const classes = require("../classes");
 const validUrl = require("valid-url");
 
 const shortId = require("shortid");
-const URL = "http://localhost:3000";
+const URL = "https://URL-Shortener.kostakirov.repl.co";
 
 let router = express.Router();
 const dataBase = new classes.DataBase();

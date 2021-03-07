@@ -1,7 +1,15 @@
 const request = require("supertest");
 const { app } = require("../app");
+const { dataBase } = require("../routes/shorturlRoutes");
 
 jest.setTimeout(10000);
+
+let validUrlResponseBody;
+
+beforeAll(async (done) => {
+	await dataBase.updateSelf();
+	done();
+});
 
 describe("PUT Route", () => {
 	const validLongUrl = "https://www.w3schools.com/jsref/jsref_obj_date.asp";
@@ -10,6 +18,8 @@ describe("PUT Route", () => {
 		const requestBody = { longUrl: validLongUrl };
 		const response = await request(app).put(`/api/shorturl`).send(requestBody);
 
+		validUrlResponseBody = response.body;
+		console.log(response.body);
 		// Is the status code 200
 		expect(response.status).toBe(200);
 
@@ -29,6 +39,16 @@ describe("PUT Route", () => {
 		const response = await request(app).put("/api/shorturl/").send(requestBody);
 		expect(response.status).toBe(400);
 		expect(response.text).toBe(`URL 'I'm so tired, fuck' is invalid. Please enter a valid url.`);
+		done();
+	});
+
+	it("should return the existing URL if it already exists in the database. ", async (done) => {
+		const validLongUrlWhichAlreadyExists = validLongUrl;
+		requestBody = { longUrl: validLongUrlWhichAlreadyExists };
+
+		const response = await request(app).put("/api/shorturl/").send(requestBody);
+		expect(response.status).toBe(200);
+		expect(response.body).toStrictEqual(validUrlResponseBody);
 		done();
 	});
 });

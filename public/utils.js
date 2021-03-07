@@ -28,3 +28,26 @@ async function getStatsForUrl(shortUrlId) {
 		throw new Error(error.response.data);
 	}
 }
+
+// A function for padding numbers to 2 digits.
+function twoDigits(number) {
+	if (0 <= number && number < 10) {
+		return "0" + number.toString();
+	}
+	return number.toString();
+}
+
+/* A function for converting date in MS to my mySQL format strings (local time) */
+function toMyDateForSmallerScreens(dateInMS) {
+	const dateObject = new Date(dateInMS);
+
+	return (
+		twoDigits(1 + dateObject.getMonth()) +
+		"/" +
+		twoDigits(dateObject.getDate()) +
+		" " +
+		twoDigits(dateObject.getHours()) +
+		":" +
+		twoDigits(dateObject.getMinutes())
+	);
+}

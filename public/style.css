@@ -19,7 +19,8 @@ h3 {
 }
 
 a {
-	color: #2574a9;
+	color: limegreen;
+	text-shadow: none !important;
 }
 
 form {
@@ -63,4 +64,8 @@ button {
 
 #url-input {
 	display: inline-block;
+}
+
+#main-title {
+	margin-top: 30px;
 }

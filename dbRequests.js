@@ -11,7 +11,7 @@ const getUrlsBin = async () => {
 	try {
 		const { data } = await axios({
 			method: "GET",
-			url: "http://localhost:3001/b/" + MY_BIN_ID_FOR_URLS,
+			url: "window.location.origin" + MY_BIN_ID_FOR_URLS,
 			data: {},
 		});
 		// There are 2 layers of arrays in Koren's bins for some reason
@@ -34,7 +34,7 @@ const updateUrlsBin = async (dataBase) => {
 	try {
 		let response = await axios({
 			method: "PUT",
-			url: "http://localhost:3001/b/" + MY_BIN_ID_FOR_URLS,
+			url: "window.location.origin" + MY_BIN_ID_FOR_URLS,
 			data: JSON.stringify(dataBase.urls),
 			headers: {
 				"Content-Type": "application/json",
